@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8">
+  <title>Iyandikishe | Rwandan Baristas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">☕ Rwandan Baristas</div>
+  <nav>
+    <a href="index.html">Ahabanza</a>
+    <a href="baristas.html">Abarista</a>
+  </nav>
+</header>
+
+<section class="how">
+  <h2>Iyandikishe nk’Umurista</h2>
+
+  <form id="baristaForm" class="form">
+    <input type="text" id="name" placeholder="Izina ryawe" required>
+    <input type="text" id="location" placeholder="Aho ubarizwa (ex: Kigali)" required>
+    <input type="text" id="skills" placeholder="Skills (Espresso, Latte Art...)" required>
+    
+    <select id="experience" required>
+      <option value="">Experience</option>
+      <option value="Beginner">Beginner</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Professional">Professional</option>
+    </select>
+
+    <input type="text" id="phone" placeholder="WhatsApp number (07...)" required>
+
+    <button type="submit" class="btn primary">Iyandikishe</button>
+  </form>
+</section>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Rwandan Baristas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">☕ Rwandan Baristas</div>
+  <nav>
+    <a href="#" id="logout" class="btn">Logout</a>
+  </nav>
+</header>
+
+<section class="how">
+  <h2 id="welcome"></h2>
+
+  <!-- BARISTA -->
+  <div id="baristaDash" style="display:none;">
+    <p>Murakaza neza Barista 👋</p>
+    <a href="jobs.html" class="btn primary">Shaka Akazi</a>
+    <a href="baristas.html" class="btn secondary">Profile za Barista</a>
+
+    <h3>Jobs Ubashije Gusaba</h3>
+<div id="appliedJobs"></div>
+
+<h3>Jobs Ushobora Gusaba</h3>
+<div id="availableJobs"></div>
+
+  </div>
+
+  <!-- EMPLOYER -->
+  <div id="employerDash" style="display:none;">
+    <p>Murakaza neza Employer 👋</p>
+    <a href="post-job.html" class="btn primary">Shyiraho Akazi</a>
+    <a href="jobs.html" class="btn secondary">Reba Akazi</a>
+  </div>
+  <!-- EMPLOYER DASHBOARD -->
+<div id="employerDash" style="display:none;">
+  <p>Murakaza neza Employer 👋</p>
+  <a href="post-job.html" class="btn primary">Shyiraho Akazi</a>
+
+  <h3>Jobs Zawe</h3>
+  <table id="employerJobs" border="1" cellpadding="8">
+    <tr>
+      <th>Café / Event</th>
+      <th>Location</th>
+      <th>Type</th>
+      <th>Pay</th>
+      <th>Actions</th>
+    </tr>
+  </table>
+</div>
+
+
+  <!-- ADMIN -->
+  <div id="adminDash" style="display:none;">
+    <p>Murakaza neza Admin 👋</p>
+    <a href="jobs.html" class="btn primary">Manage Jobs</a>
+    <a href="baristas.html" class="btn secondary">Manage Baristas</a>
+    <h3>Manage Jobs</h3>
+<table id="adminJobs" border="1" cellpadding="8">
+  <tr>
+    <th>Café / Event</th>
+    <th>Location</th>
+    <th>Type</th>
+    <th>Pay</th>
+    <th>Actions</th>
+  </tr>
+  <tr><td>
+  <button class="editJob" data-index="${i}" onclick="editJob(${i})">Edit</button>
+  <button class="deleteJob" data-index="${i}">Delete</button>
+</td>
+</tr>
+</table>
+
+<h3>Manage Baristas</h3>
+<table id="adminBaristas" border="1" cellpadding="8">
+  <tr>
+    <th>Izina</th>
+    <th>Aho</th>
+    <th>Skills</th>
+    <th>Experience</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr><tr><td>
+  <button class="editBarista" data-index="${i}" onclick="editBarista(${i})">Edit</button>
+  <button class="deleteBarista" data-index="${i}">Delete</button>
+</td>
+</tr>
+</table>
+
+  </div>
+</section>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
