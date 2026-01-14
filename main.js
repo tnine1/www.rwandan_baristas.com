@@ -487,3 +487,33 @@ function notify(message, type = "success") {
 // Usage examples
 // notify("Akazi koherejwe neza!");
 // notify("Job deleted!", "error");
+
+if (user && user.role === "barista") {
+  const baristas = JSON.parse(localStorage.getItem("baristas")) || [];
+  const myIndex = baristas.findIndex(b => b.phone === user.username);
+  const uploadInput = document.getElementById("latteUpload");
+  const previewDiv = document.getElementById("lattePreview");
+
+  // Show current image if exists
+  if (baristas[myIndex] && baristas[myIndex].latteSample) {
+    previewDiv.innerHTML = `<img src="${baristas[myIndex].latteSample}" style="max-width:200px; border-radius:5px; margin-top:10px;">`;
+  }
+
+  // Handle new upload
+  uploadInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // Save base64 string in localStorage
+        baristas[myIndex].latteSample = e.target.result;
+        localStorage.setItem("baristas", JSON.stringify(baristas));
+
+        // Preview
+        previewDiv.innerHTML = `<img src="${e.target.result}" style="max-width:200px; border-radius:5px; margin-top:10px;">`;
+        notify("Latte Art Sample yashyizweho neza!");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
