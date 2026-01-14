@@ -9,6 +9,16 @@ body {
   background: #f7f5f2;
   color: #333;
 }
+ial-icons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.social-link {
+  color: var(--accent);
+  font-size: 1.2rem;
+  text-decoration: none;
+}
 
 /* Header */
 .header {
@@ -325,4 +335,5 @@ body {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
+
 
