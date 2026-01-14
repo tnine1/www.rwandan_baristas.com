@@ -282,4 +282,11 @@ body {
   background: #4CAF50;
   color: #fff;
 }
+#lattePreview img {
+  display: block;
+  margin-top: 10px;
+  border: 2px solid #c49a6c;
+  border-radius: 8px;
+}
+
 
