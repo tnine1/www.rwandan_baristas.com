@@ -289,4 +289,17 @@ body {
   border-radius: 8px;
 }
 
+.profile-avatar {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  z-index: 9999;
+  background: var(--glass);
+}
 
