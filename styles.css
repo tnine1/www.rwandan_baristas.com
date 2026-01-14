@@ -235,3 +235,51 @@ table td button {
 .card button {
   margin-top: 5px;
 }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.header {
+  background: #c49a6c;
+  padding: 15px;
+  color: #000;
+}
+
+.header .logo {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.btn {
+  transition: 0.3s;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #c49a6c;
+  color: #000;
+  padding: 10px 15px;
+  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.notification.error {
+  background: #ff4c4c;
+  color: #fff;
+}
+
+.notification.success {
+  background: #4CAF50;
+  color: #fff;
+}
+
