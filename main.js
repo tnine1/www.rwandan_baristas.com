@@ -526,7 +526,7 @@ const formData = {
   password: document.getElementById("password").value
 };
 
-fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/register.php", {
+fetch("https://api.rwandanbaristas.free.nf/api/register.php", {
   method: "POST",
   body: JSON.stringify(formData),
   headers: { "Content-Type": "application/json" }
@@ -545,7 +545,7 @@ const loginData = {
   password: document.getElementById("password").value
 };
 
-fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/login.php", {
+fetch("https://api.rwandanbaristas.free.nf/api/login.php", {
   method: "POST",
   body: JSON.stringify(loginData),
   headers: { "Content-Type": "application/json" }
@@ -567,7 +567,7 @@ const jobData = {
   location: document.getElementById("location").value
 };
 
-fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/post_job.php", {
+fetch("https://api.rwandanbaristas.free.nf/api/post_job.php", {
   method: "POST",
   body: JSON.stringify(jobData),
   headers: { "Content-Type": "application/json" }
@@ -578,7 +578,7 @@ fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/post_job.php", {
     alert("Job posted successfully!");
   }
 });
-fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/apply_job.php", {
+fetch("https://api.rwandanbaristas.free.nf/api/apply_job.php", {
   method: "POST",
   body: JSON.stringify({
     job_id: selectedJobId,
@@ -595,7 +595,7 @@ fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/apply_job.php", {
 const form = document.getElementById("uploadForm");
 const formData = new FormData(form);
 
-fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/upload_files.php", {
+fetch("https://api.rwandanbaristas.free.nf/api/upload_files.php", {
   method: "POST",
   body: formData
 })
@@ -605,4 +605,5 @@ fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/upload_files.php", {
     alert("File uploaded!");
   }
 });
+
 
