@@ -517,3 +517,92 @@ if (user && user.role === "barista") {
     }
   });
 }
+
+
+const formData = {
+  role: "barista",
+  name: document.getElementById("name").value,
+  phone: document.getElementById("phone").value,
+  password: document.getElementById("password").value
+};
+
+fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/register.php", {
+  method: "POST",
+  body: JSON.stringify(formData),
+  headers: { "Content-Type": "application/json" }
+})
+.then(res => res.json())
+.then(response => {
+  if(response.success){
+    alert("Registration successful!");
+  } else {
+    alert("Error: " + response.error);
+  }
+});
+
+const loginData = {
+  phone: document.getElementById("phone").value,
+  password: document.getElementById("password").value
+};
+
+fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/login.php", {
+  method: "POST",
+  body: JSON.stringify(loginData),
+  headers: { "Content-Type": "application/json" }
+})
+.then(res => res.json())
+.then(data => {
+  if(data.success){
+    sessionStorage.setItem("user", JSON.stringify(data));
+    window.location.href = "dashboard.html";
+  } else {
+    alert("Login failed");
+  }
+});
+
+const jobData = {
+  company_id: currentCompanyId,
+  title: document.getElementById("title").value,
+  skills: document.getElementById("skills").value,
+  location: document.getElementById("location").value
+};
+
+fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/post_job.php", {
+  method: "POST",
+  body: JSON.stringify(jobData),
+  headers: { "Content-Type": "application/json" }
+})
+.then(res => res.json())
+.then(resp => {
+  if(resp.success){
+    alert("Job posted successfully!");
+  }
+});
+fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/apply_job.php", {
+  method: "POST",
+  body: JSON.stringify({
+    job_id: selectedJobId,
+    barista_id: currentUserId
+  }),
+  headers: { "Content-Type": "application/json" }
+})
+.then(res => res.json())
+.then(resp => {
+  if(resp.success){
+    alert("Applied successfully!");
+  }
+});
+const form = document.getElementById("uploadForm");
+const formData = new FormData(form);
+
+fetch("https://api.rwandanbaristas.infinityfreeapp.com/api/upload_files.php", {
+  method: "POST",
+  body: formData
+})
+.then(res => res.json())
+.then(resp => {
+  if(resp.success){
+    alert("File uploaded!");
+  }
+});
+
