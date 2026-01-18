@@ -1,4 +1,16 @@
 /* ===== Global Reset & Base ===== */
+/* Example: full-page background image */
+body {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  background: url('https://as1.ftcdn.net/v2/jpg/02/67/56/80/1000_F_267568050_gKkcBAI5XkpEHNpipkx2aIarNbwarCRN.jpg') 
+              no-repeat center center fixed;
+  background-size: cover;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,7 +20,7 @@
 html, body {
   height: 100%;
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  background-color: #f9fafb;
+  
   color: #1f2937;
   line-height: 1.6;
 }
@@ -166,3 +178,4 @@ h2, h3 {
   font-weight: 600;
   color: #111827;
 }
+
