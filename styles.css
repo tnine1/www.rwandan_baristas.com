@@ -1,25 +1,168 @@
-:root {
-  --primary: #0b6b3a;
-  --bg: #f7f7f7;
-  --text: #222;
+/* ===== Global Reset & Base ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-* { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, Arial, sans-serif; background: var(--bg); color: var(--text); }
-header { background: #fff; border-bottom: 1px solid #ddd; padding: 10px 16px; }
-h1 { margin: 0; font-size: 1.2rem; }
-nav a { margin-right: 10px; color: var(--primary); text-decoration: none; }
-main { padding: 16px; }
-.view { display: none; }
-.view.active { display: block; }
-.hidden { display: none !important; }
-form { display: grid; gap: 8px; max-width: 600px; }
-input, select, textarea, button { padding: 10px; font-size: 1rem; }
-button { background: var(--primary); color: #fff; border: none; cursor: pointer; }
-button:hover { opacity: 0.9; }
-.msg { margin-top: 8px; color: #0b6b3a; }
-.search-bar { display: grid; gap: 8px; grid-template-columns: 1fr 160px 1fr 120px; max-width: 900px; }
-#jobsList .job { background: #fff; border: 1px solid #ddd; padding: 12px; margin-bottom: 10px; border-radius: 6px; }
-footer { text-align: center; padding: 16px; color: #666; }
+
+html, body {
+  height: 100%;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+/* ===== Layout ===== */
+header, footer {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 2rem;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0b6b3a;
+}
+
+nav {
+  margin-top: 0.5rem;
+}
+
+nav a {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: #0b6b3a;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: #065f2d;
+}
+
+main {
+  padding: 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 2rem;
+}
+
+/* ===== Views ===== */
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+/* ===== Forms ===== */
+form {
+  display: grid;
+  gap: 1rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+input, select, textarea {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #0b6b3a;
+  outline: none;
+}
+
+button {
+  padding: 0.75rem 1.25rem;
+  background-color: #0b6b3a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #065f2d;
+}
+
+/* ===== Messages ===== */
+.msg {
+  font-size: 0.95rem;
+  color: #0b6b3a;
+  margin-top: -0.5rem;
+}
+
+/* ===== Job Cards ===== */
+#jobsList .job {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+#jobsList .job:hover {
+  transform: translateY(-2px);
+}
+
+#jobsList .job strong {
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+#jobsList .job em {
+  color: #6b7280;
+}
+
+/* ===== Search Bar ===== */
+.search-bar {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  margin-bottom: 1.5rem;
+}
+
+.search-bar input, .search-bar select {
+  font-size: 0.95rem;
+}
+
 @media (max-width: 640px) {
-  .search-bar { grid-template-columns: 1fr; }
+  .search-bar {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Panels ===== */
+#baristaPanel, #employerPanel, #adminPanel {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+h2, h3 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #111827;
 }
