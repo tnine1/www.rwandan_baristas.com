@@ -130,12 +130,24 @@
   </footer>
 
   <script>
-    const API_BASE = 'https://rwandanbaristas.infinityfreeapp.com/';
+    fetch("https://yourdomain.infinityfreeapp.com/api/getBaristas.php")
+  .then(res => res.json())
+  .then(baristas => {
+    const list = document.getElementById("baristaList");
+    baristas.forEach(b => {
+      const item = document.createElement("li");
+      item.textContent = `${b.first_name} ${b.last_name} - ${b.skills} (${b.location})`;
+      list.appendChild(item);
+    });
+  });
+
+    
   </script>
   <script src="main.js"></script>
  
 </body>
 </html>
+
 
 
 
