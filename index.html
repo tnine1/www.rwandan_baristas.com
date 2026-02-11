@@ -131,20 +131,26 @@
   </footer>
 
   <script>
-document.querySelector("#registerForm").addEventListener("submit", async (e) => {
+document.getElementById("registerForm").addEventListener("submit", async function(e) {
   e.preventDefault();
-  const formData = new FormData(e.target);
+
+  const formData = new FormData(this);
 
   try {
-    const res = await fetch("https:rwandanbarista.ct.ws/register.php", {
+    const response = await fetch("https://rwandanbarista.ct.ws/api/register.php", {
       method: "POST",
       body: formData
     });
 
-    const data = await res.json();
-    document.querySelector("#registerMsg").textContent = data.message;
-  } catch (err) {
-    document.querySelector("#registerMsg").textContent = "Error connecting to server.";
+    const data = await response.json();
+    document.getElementById("registerMsg").innerText = data.message;
+
+    if (data.success) {
+      this.reset();
+    }
+
+  } catch (error) {
+    document.getElementById("registerMsg").innerText = "Server error. Try again.";
   }
 });
 
@@ -154,6 +160,7 @@ document.querySelector("#registerForm").addEventListener("submit", async (e) => 
  
 </body>
 </html>
+
 
 
 
