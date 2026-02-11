@@ -131,41 +131,27 @@
   </footer>
 
   <script>
-    fetch("https://yourdomain.infinityfreeapp.com/api/getBaristas.php")
-  .then(res => res.json())
-  .then(baristas => {
-    const list = document.getElementById("baristaList");
-    baristas.forEach(b => {
-      const item = document.createElement("li");
-      item.textContent = `${b.first_name} ${b.last_name} - ${b.skills} (${b.location})`;
-      list.appendChild(item);
-    });
-  });
-
-    document.getElementById("registerForm").addEventListener("submit", function(e) {
+   // Example: Registration form
+document.querySelector("#registerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  const formData = new FormData(e.target);
 
-  const formData = new FormData(this);
-
-  fetch("https://rwandanbaristas.infinityfree.me/register.php", {
+  const res = await fetch("https:rwandanbarista.ct.ws/register.php", {
     method: "POST",
     body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("registerMsg").textContent = data.message;
-  })
-  .catch(err => {
-    document.getElementById("registerMsg").textContent = "Error connecting to server.";
-    console.error(err);
   });
+
+  const data = await res.json();
+  alert(data.message);
 });
+
 
   </script>
   <script src="main.js"></script>
  
 </body>
 </html>
+
 
 
 
