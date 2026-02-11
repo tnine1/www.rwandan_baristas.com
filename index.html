@@ -131,18 +131,21 @@
   </footer>
 
   <script>
-   // Example: Registration form
 document.querySelector("#registerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
 
-  const res = await fetch("https:rwandanbarista.ct.ws/register.php", {
-    method: "POST",
-    body: formData
-  });
+  try {
+    const res = await fetch("https:rwandanbarista.ct.ws/register.php", {
+      method: "POST",
+      body: formData
+    });
 
-  const data = await res.json();
-  alert(data.message);
+    const data = await res.json();
+    document.querySelector("#registerMsg").textContent = data.message;
+  } catch (err) {
+    document.querySelector("#registerMsg").textContent = "Error connecting to server.";
+  }
 });
 
 
@@ -151,6 +154,7 @@ document.querySelector("#registerForm").addEventListener("submit", async (e) => 
  
 </body>
 </html>
+
 
 
 
