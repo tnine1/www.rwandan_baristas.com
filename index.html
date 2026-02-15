@@ -131,35 +131,135 @@
   </footer>
 
   <script>
-document.getElementById("registerForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+const API_BASE = "https://rwandanbarista.ct.ws";
 
-  const formData = new FormData(this);
+// ============================
+// REGISTER
+// ============================
+const registerForm = document.getElementById("registerForm");
 
-  try {
-    const response = await fetch("https://rwandanbarista.ct.ws/api/register.php", {
-      method: "POST",
-      body: formData
-    });
+if (registerForm) {
+  registerForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-    const data = await response.json();
-    document.getElementById("registerMsg").innerText = data.message;
+    const role = document.getElementById("role").value;
+    const first_name = document.getElementById("first_name").value.trim();
+    const last_name = document.getElementById("last_name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-    if (data.success) {
-      this.reset();
+    try {
+      const response = await fetch(`${API_BASE}/register.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          role,
+          first_name,
+          last_name,
+          email,
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        alert("Registration successful! You can now login.");
+        window.location.href = "login.html";
+      } else {
+        alert(data.message);
+      }
+
+    } catch (error) {
+      alert("Server connection failed.");
     }
+  });
+}
 
-  } catch (error) {
-    document.getElementById("registerMsg").innerText = "Server error. Try again.";
+
+// ============================
+// LOGIN
+// ============================
+const loginForm = document.getElementById("loginForm");
+
+if (loginForm) {
+  loginForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("login_email").value.trim();
+    const password = document.getElementById("login_password").value;
+
+    try {
+      const response = await fetch(`${API_BASE}/login.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+
+        // Save user in browser
+        localStorage.setItem("rwandanbarista_user", JSON.stringify(data.user));
+
+        alert("Welcome " + data.user.first_name);
+
+        // Redirect by role
+        if (data.user.role === "barista") {
+          window.location.href = "barista-dashboard.html";
+        } 
+        else if (data.user.role === "employer") {
+          window.location.href = "employer-dashboard.html";
+        } 
+        else if (data.user.role === "admin") {
+          window.location.href = "admin-dashboard.html";
+        }
+
+      } else {
+        alert(data.message);
+      }
+
+    } catch (error) {
+      alert("Login failed. Server error.");
+    }
+  });
+}
+
+
+// ============================
+// AUTO LOGIN CHECK
+// ============================
+function checkLogin() {
+  const user = localStorage.getItem("rwandanbarista_user");
+
+  if (!user) {
+    window.location.href = "login.html";
   }
-});
+}
 
+
+// ============================
+// LOGOUT
+// ============================
+function logout() {
+  localStorage.removeItem("rwandanbarista_user");
+  window.location.href = "login.html";
+}
 
   </script>
   <script src="main.js"></script>
  
 </body>
 </html>
+
 
 
 
