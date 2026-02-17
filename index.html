@@ -38,23 +38,25 @@
     <div id="loginMsg"></div>
   </section>
 
+
   <!-- REGISTER -->
-  <section id="register" class="view">
-    <h2>Register</h2>
-    <form id="registerForm">
-      <select id="role">
-        <option value="barista">Barista</option>
-        <option value="employer">Employer</option>
-      </select>
+<section id="register" class="view">
+  <h2>Register</h2>
+  <form id="registerForm">
+    <select id="role">
+      <option value="barista">Barista</option>
+      <option value="employer">Employer</option>
+    </select>
 
-      <input type="text" id="first_name" placeholder="First name" required>
-      <input type="email" id="register_email" placeholder="Email" required>
-      <input type="password" id="register_password" placeholder="Password" required>
+    <input type="text" id="first_name" placeholder="First name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
 
-      <button type="submit">Create account</button>
-    </form>
-    <div id="registerMsg"></div>
-  </section>
+    <button type="submit">Create account</button>
+  </form>
+  <div id="registerMsg"></div>
+</section>
+
 
   <!-- DASHBOARD -->
   <section id="dashboard" class="view">
@@ -108,3 +110,4 @@ document.querySelectorAll("nav a[data-view]").forEach(link => {
 
 </body>
 </html>
+
