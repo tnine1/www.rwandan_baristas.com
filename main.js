@@ -51,39 +51,42 @@ async function loginUser() {
 /* =========================
    AUTH – REGISTER
 ========================= */
-document.getElementById("registerForm").addEventListener("submit", async e => {
-  e.preventDefault();
+/* =========================
+   REGISTER
+========================= */
+document.getElementById("registerForm")?.addEventListener("submit", async e => {
+    e.preventDefault();
 
-  const role = document.getElementById("role").value;
-  const first_name = document.getElementById("first_name").value.trim();
-  const email = document.getElementById("email").value.trim().toLowerCase();
-  const password = document.getElementById("password").value;
+    // match exact IDs in index.html
+    const first_name = document.getElementById("first_name").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
 
-  const msg = document.getElementById("registerMsg");
-  msg.textContent = "Creating account...";
+    const msg = document.getElementById("registerMsg");
+    msg.textContent = "Creating account...";
 
-  try {
-    const res = await fetch("api/register.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        role,
-        first_name,
-        email,
-        password
-      })
-    });
+    try {
+        const res = await fetch("api/register.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ first_name, email, password, role })
+        });
 
-    const data = await res.json();
+        const data = await res.json();
 
-    if (!res.ok) throw new Error(data.error);
+        if (!res.ok) throw new Error(data.error || "Unknown error");
 
-    msg.textContent = "✅ Account created successfully";
+        msg.textContent = "✅ Account created successfully. Please login.";
+        // switch to login view
+        document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+        document.getElementById("login").classList.add("active");
 
-  } catch (err) {
-    msg.textContent = "❌ " + err.message;
-  }
+    } catch (err) {
+        msg.textContent = "❌ " + err.message;
+    }
 });
+
 
 
 /* =========================
@@ -211,4 +214,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
