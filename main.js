@@ -54,14 +54,17 @@ async function loginUser() {
 /* =========================
    REGISTER
 ========================= */
+/* =========================
+   REGISTER
+========================= */
 document.getElementById("registerForm")?.addEventListener("submit", async e => {
     e.preventDefault();
 
-    // match exact IDs in index.html
+    // grab values from HTML
+    const role = document.getElementById("role").value;
     const first_name = document.getElementById("first_name").value.trim();
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
-    const role = document.getElementById("role").value;
 
     const msg = document.getElementById("registerMsg");
     msg.textContent = "Creating account...";
@@ -70,7 +73,7 @@ document.getElementById("registerForm")?.addEventListener("submit", async e => {
         const res = await fetch("api/register.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ first_name, email, password, role })
+            body: JSON.stringify({ role, first_name, email, password })
         });
 
         const data = await res.json();
@@ -78,7 +81,8 @@ document.getElementById("registerForm")?.addEventListener("submit", async e => {
         if (!res.ok) throw new Error(data.error || "Unknown error");
 
         msg.textContent = "✅ Account created successfully. Please login.";
-        // switch to login view
+
+        // switch to login view automatically
         document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
         document.getElementById("login").classList.add("active");
 
@@ -214,5 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 
