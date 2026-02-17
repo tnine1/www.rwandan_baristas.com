@@ -51,25 +51,40 @@ async function loginUser() {
 /* =========================
    AUTH – REGISTER
 ========================= */
-document.getElementById("registerForm")?.addEventListener("submit", async e => {
+document.getElementById("registerForm").addEventListener("submit", async e => {
   e.preventDefault();
 
   const role = document.getElementById("role").value;
   const first_name = document.getElementById("first_name").value.trim();
-  const email = document.getElementById("register_email").value.trim();
-  const password = document.getElementById("register_password").value;
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
 
   const msg = document.getElementById("registerMsg");
   msg.textContent = "Creating account...";
 
   try {
-    await apiFetch("/register.php", { role, first_name, email, password });
-    msg.textContent = "✅ Account created. Please login.";
-    showView("login");
-  } catch {
-    msg.textContent = "❌ Email already exists";
+    const res = await fetch("api/register.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        role,
+        first_name,
+        email,
+        password
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error);
+
+    msg.textContent = "✅ Account created successfully";
+
+  } catch (err) {
+    msg.textContent = "❌ " + err.message;
   }
 });
+
 
 /* =========================
    SESSION CHECK
@@ -196,3 +211,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
