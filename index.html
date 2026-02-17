@@ -15,29 +15,30 @@
     <a href="#" data-view="login" id="loginLink">Login</a>
     <a href="#" data-view="register" id="registerLink">Register</a>
     <a href="#" data-view="dashboard" id="dashboardLink" class="hidden">Dashboard</a>
-    <a href="#" id="logoutLink" class="hidden">Logout</a>
+    <a href="#" id="logoutLink" class="hidden" onclick="logout()">Logout</a>
   </nav>
 </header>
 
 <main>
-  <!-- Home -->
+
+  <!-- HOME -->
   <section id="home" class="view active">
     <p>Connect baristas in Rwanda with cafés and employers.</p>
-    <div id="jobsList"></div>
+    <div id="jobs"></div>
   </section>
 
-  <!-- Login -->
+  <!-- LOGIN -->
   <section id="login" class="view">
     <h2>Login</h2>
-    <form id="loginForm">
-      <input type="email" id="login_email" placeholder="Email" required>
-      <input type="password" id="login_password" placeholder="Password" required>
-      <button>Login</button>
+    <form onsubmit="event.preventDefault(); loginUser();">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
     </form>
     <div id="loginMsg"></div>
   </section>
 
-  <!-- Register -->
+  <!-- REGISTER -->
   <section id="register" class="view">
     <h2>Register</h2>
     <form id="registerForm">
@@ -45,29 +46,40 @@
         <option value="barista">Barista</option>
         <option value="employer">Employer</option>
       </select>
+
       <input type="text" id="first_name" placeholder="First name" required>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button>Create account</button>
+      <input type="email" id="register_email" placeholder="Email" required>
+      <input type="password" id="register_password" placeholder="Password" required>
+
+      <button type="submit">Create account</button>
     </form>
     <div id="registerMsg"></div>
   </section>
 
-  <!-- Dashboard -->
+  <!-- DASHBOARD -->
   <section id="dashboard" class="view">
     <h2>Dashboard</h2>
     <p id="roleInfo"></p>
 
+    <!-- BARISTA -->
     <div id="baristaPanel" class="hidden">
       <h3>Barista Panel</h3>
       <textarea placeholder="Your skills"></textarea>
+      <button>Save Profile</button>
     </div>
 
+    <!-- EMPLOYER -->
     <div id="employerPanel" class="hidden">
       <h3>Employer Panel</h3>
-      <input placeholder="Post a job title">
+      <input id="jobTitle" placeholder="Job title">
+      <textarea id="jobDesc" placeholder="Job description"></textarea>
+      <button>Post Job</button>
+
+      <h4>Available Baristas</h4>
+      <div id="baristas"></div>
     </div>
   </section>
+
 </main>
 
 <footer>
@@ -75,5 +87,24 @@
 </footer>
 
 <script src="main.js"></script>
+
+<script>
+/* =========================
+   SIMPLE VIEW SWITCHER
+========================= */
+document.querySelectorAll("nav a[data-view]").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const view = link.dataset.view;
+
+    document.querySelectorAll(".view").forEach(v =>
+      v.classList.remove("active")
+    );
+
+    document.getElementById(view).classList.add("active");
+  });
+});
+</script>
+
 </body>
 </html>
