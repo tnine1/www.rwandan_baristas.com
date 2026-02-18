@@ -28,23 +28,38 @@ function showView(id) {
 }
 
 /* =========================
-   AUTH – LOGIN
+   LOGIN
 ========================= */
 async function loginUser() {
-  const email = document.getElementById("email").value.trim();
+
+  const email = document.getElementById("email").value.trim().toLowerCase();
   const password = document.getElementById("password").value;
 
   const msg = document.getElementById("loginMsg");
   msg.textContent = "Logging in...";
 
   try {
-    const res = await apiFetch("/auth.php", { email, password });
+    const res = await fetch("https://yourdomain.ct.ws/api/login.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
 
-    msg.textContent = "✅ Logged in";
-    updateNav(res.role);
-    showDashboard(res.role);
-  } catch {
-    msg.textContent = "❌ Invalid email or password";
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Login failed");
+
+    msg.textContent = "✅ Logged in successfully";
+
+    // Save user session locally
+    localStorage.setItem("userRole", data.role);
+    localStorage.setItem("userEmail", email);
+
+    updateNav(data.role);
+    showDashboard(data.role);
+
+  } catch (err) {
+    msg.textContent = "❌ " + err.message;
   }
 }
 
@@ -55,16 +70,19 @@ async function loginUser() {
    REGISTER
 ========================= */
 /* =========================
+/* =========================
    REGISTER
 ========================= */
 document.getElementById("registerForm")?.addEventListener("submit", async e => {
     e.preventDefault();
 
-    // grab values from HTML
     const role = document.getElementById("role").value;
     const first_name = document.getElementById("first_name").value.trim();
+    const last_name = document.getElementById("last_name").value.trim();
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
+    const phone = document.getElementById("phone").value.trim();
+    const location = document.getElementById("location").value.trim();
 
     const msg = document.getElementById("registerMsg");
     msg.textContent = "Creating account...";
@@ -73,7 +91,15 @@ document.getElementById("registerForm")?.addEventListener("submit", async e => {
         const res = await fetch("api/register.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ role, first_name, email, password })
+            body: JSON.stringify({
+                role,
+                first_name,
+                last_name,
+                email,
+                password,
+                phone,
+                location
+            })
         });
 
         const data = await res.json();
@@ -82,7 +108,6 @@ document.getElementById("registerForm")?.addEventListener("submit", async e => {
 
         msg.textContent = "✅ Account created successfully. Please login.";
 
-        // switch to login view automatically
         document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
         document.getElementById("login").classList.add("active");
 
@@ -90,6 +115,7 @@ document.getElementById("registerForm")?.addEventListener("submit", async e => {
         msg.textContent = "❌ " + err.message;
     }
 });
+
 
 
 
@@ -218,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 
 
