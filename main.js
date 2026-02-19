@@ -1,7 +1,8 @@
 /* =========================
    CONFIG
 ========================= */
-const API = "http://rwandanbarista.ct.ws/";
+// MUST be HTTPS and MUST point to /api
+const API = "https://rwandanbarista.ct.ws/api";
 
 /* =========================
    GENERIC FETCH
@@ -10,20 +11,35 @@ async function apiFetch(endpoint, data = null, method = "POST") {
   const options = {
     method,
     headers: { "Content-Type": "application/json" },
-    credentials: "include"
+    credentials: "include" // for PHP sessions
   };
-  if (data) options.body = JSON.stringify(data);
+
+  if (data) {
+    options.body = JSON.stringify(data);
+  }
 
   const res = await fetch(API + endpoint, options);
-  if (!res.ok) throw new Error("API error");
-  return res.json();
+
+  let json;
+  try {
+    json = await res.json();
+  } catch {
+    throw new Error("Invalid server response");
+  }
+
+  if (!res.ok) {
+    throw new Error(json.error || "API error");
+  }
+
+  return json;
 }
 
 /* =========================
    VIEW SWITCHER
 ========================= */
 function showView(id) {
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll(".view")
+    .forEach(v => v.classList.remove("active"));
   document.getElementById(id)?.classList.add("active");
 }
 
@@ -31,27 +47,17 @@ function showView(id) {
    LOGIN
 ========================= */
 async function loginUser() {
-
   const email = document.getElementById("email").value.trim().toLowerCase();
   const password = document.getElementById("password").value;
-
   const msg = document.getElementById("loginMsg");
+
   msg.textContent = "Logging in...";
 
   try {
-    const res = await fetch("https://http://rwandanbarista.ct.ws/?i=1.ct.ws/api/login.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || "Login failed");
+    const data = await apiFetch("/login.php", { email, password });
 
     msg.textContent = "✅ Logged in successfully";
 
-    // Save user session locally
     localStorage.setItem("userRole", data.role);
     localStorage.setItem("userEmail", email);
 
@@ -64,60 +70,33 @@ async function loginUser() {
 }
 
 /* =========================
-   AUTH – REGISTER
-========================= */
-/* =========================
-   REGISTER
-========================= */
-/* =========================
-/* =========================
    REGISTER
 ========================= */
 document.getElementById("registerForm")?.addEventListener("submit", async e => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const role = document.getElementById("role").value;
-    const first_name = document.getElementById("first_name").value.trim();
-    const last_name = document.getElementById("last_name").value.trim();
-    const email = document.getElementById("email").value.trim().toLowerCase();
-    const password = document.getElementById("password").value;
-    const phone = document.getElementById("phone").value.trim();
-    const location = document.getElementById("location").value.trim();
+  const payload = {
+    role: document.getElementById("role").value,
+    first_name: document.getElementById("first_name").value.trim(),
+    last_name: document.getElementById("last_name").value.trim(),
+    email: document.getElementById("email").value.trim().toLowerCase(),
+    password: document.getElementById("password").value,
+    phone: document.getElementById("phone").value.trim(),
+    location: document.getElementById("location").value.trim()
+  };
 
-    const msg = document.getElementById("registerMsg");
-    msg.textContent = "Creating account...";
+  const msg = document.getElementById("registerMsg");
+  msg.textContent = "Creating account...";
 
-    try {
-        const res = await fetch("http://rwandanbarista.ct.ws/register.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                role,
-                first_name,
-                last_name,
-                email,
-                password,
-                phone,
-                location
-            })
-        });
+  try {
+    await apiFetch("/register.php", payload);
+    msg.textContent = "✅ Account created. Please login.";
 
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || "Unknown error");
-
-        msg.textContent = "✅ Account created successfully. Please login.";
-
-        document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-        document.getElementById("login").classList.add("active");
-
-    } catch (err) {
-        msg.textContent = "❌ " + err.message;
-    }
+    showView("login");
+  } catch (err) {
+    msg.textContent = "❌ " + err.message;
+  }
 });
-
-
-
 
 /* =========================
    SESSION CHECK
@@ -129,25 +108,31 @@ async function checkSession() {
 
     updateNav(res.role);
     showDashboard(res.role);
-  } catch {}
+  } catch {
+    // user not logged in
+  }
 }
 
 /* =========================
    LOGOUT
 ========================= */
 async function logout() {
-  await apiFetch("/logout.php");
-  location.reload();
+  try {
+    await apiFetch("/logout.php");
+  } finally {
+    localStorage.clear();
+    location.reload();
+  }
 }
 
 /* =========================
    NAV UPDATE
 ========================= */
 function updateNav(role) {
-  document.getElementById("loginLink").classList.add("hidden");
-  document.getElementById("registerLink").classList.add("hidden");
-  document.getElementById("dashboardLink").classList.remove("hidden");
-  document.getElementById("logoutLink").classList.remove("hidden");
+  document.getElementById("loginLink")?.classList.add("hidden");
+  document.getElementById("registerLink")?.classList.add("hidden");
+  document.getElementById("dashboardLink")?.classList.remove("hidden");
+  document.getElementById("logoutLink")?.classList.remove("hidden");
 
   document.getElementById("roleInfo").textContent =
     "Logged in as: " + role.toUpperCase();
@@ -159,15 +144,15 @@ function updateNav(role) {
 function showDashboard(role) {
   showView("dashboard");
 
-  document.getElementById("baristaPanel").classList.add("hidden");
-  document.getElementById("employerPanel").classList.add("hidden");
+  document.getElementById("baristaPanel")?.classList.add("hidden");
+  document.getElementById("employerPanel")?.classList.add("hidden");
 
   if (role === "barista") {
-    document.getElementById("baristaPanel").classList.remove("hidden");
+    document.getElementById("baristaPanel")?.classList.remove("hidden");
   }
 
   if (role === "employer") {
-    document.getElementById("employerPanel").classList.remove("hidden");
+    document.getElementById("employerPanel")?.classList.remove("hidden");
     loadBaristas();
   }
 }
@@ -244,8 +229,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-
-
-
-
