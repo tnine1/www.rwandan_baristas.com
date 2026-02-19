@@ -1,7 +1,7 @@
 /* =========================
    CONFIG
 ========================= */
-const API = "/api";
+const API = "http://rwandanbarista.ct.ws/";
 
 /* =========================
    GENERIC FETCH
@@ -39,7 +39,7 @@ async function loginUser() {
   msg.textContent = "Logging in...";
 
   try {
-    const res = await fetch("https://yourdomain.ct.ws/api/login.php", {
+    const res = await fetch("https://http://rwandanbarista.ct.ws/?i=1.ct.ws/api/login.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -88,7 +88,7 @@ document.getElementById("registerForm")?.addEventListener("submit", async e => {
     msg.textContent = "Creating account...";
 
     try {
-        const res = await fetch("api/register.php", {
+        const res = await fetch("http://rwandanbarista.ct.ws/register.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -244,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 
 
