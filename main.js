@@ -72,7 +72,8 @@ async function loginUser() {
 /* =========================
    REGISTER
 ========================= */
-document.getElementById("registerForm")?.addEventListener("submit", async e => {
+
+document.getElementById("registerForm").addEventListener("submit", async e => {
   e.preventDefault();
 
   const payload = {
@@ -89,10 +90,8 @@ document.getElementById("registerForm")?.addEventListener("submit", async e => {
   msg.textContent = "Creating account...";
 
   try {
-    await apiFetch("/register.php", payload);
+    await apiFetch("register.php", payload);
     msg.textContent = "✅ Account created. Please login.";
-
-    showView("login");
   } catch (err) {
     msg.textContent = "❌ " + err.message;
   }
@@ -229,3 +228,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
