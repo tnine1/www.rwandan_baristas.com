@@ -8,17 +8,12 @@ const API = "https://rwandanbarista.ct.ws/api";
    GENERIC FETCH
 ========================= */
 async function apiFetch(endpoint, data = null, method = "POST") {
-  const options = {
+  const res = await fetch(API + endpoint, {
     method,
     headers: { "Content-Type": "application/json" },
-    credentials: "include" // for PHP sessions
-  };
-
-  if (data) {
-    options.body = JSON.stringify(data);
-  }
-
-  const res = await fetch(API + endpoint, options);
+    credentials: "include",
+    body: data ? JSON.stringify(data) : null
+  });
 
   let json;
   try {
@@ -28,12 +23,11 @@ async function apiFetch(endpoint, data = null, method = "POST") {
   }
 
   if (!res.ok) {
-    throw new Error(json.error || "API error");
+    throw new Error(json.error || "Request failed");
   }
 
   return json;
 }
-
 /* =========================
    VIEW SWITCHER
 ========================= */
@@ -72,7 +66,6 @@ async function loginUser() {
 /* =========================
    REGISTER
 ========================= */
-
 document.getElementById("registerForm").addEventListener("submit", async e => {
   e.preventDefault();
 
@@ -228,4 +221,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
