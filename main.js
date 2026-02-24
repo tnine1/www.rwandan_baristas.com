@@ -2,7 +2,7 @@
    CONFIG
 ========================= */
 // MUST be HTTPS and MUST point to /api
-const API = "https://rwandanbarista.ct.ws/api";
+const API = "https://rwandanbarista.ct.ws";
 
 /* =========================
    GENERIC FETCH
@@ -221,5 +221,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 
