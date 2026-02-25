@@ -1,4 +1,4 @@
-import { API } from "config.js";
+import { API } from "/config.js";
 
 /* LOGIN */
 document.getElementById("loginForm").onsubmit = async e => {
