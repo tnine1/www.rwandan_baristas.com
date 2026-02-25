@@ -1,43 +1,67 @@
-import { API } from "./config.js";
+/* =========================
+   CONFIG
+========================= */
+const API_BASE = "https://rwandanbarista.ct.ws/api/auth";
 
-/* LOGIN */
-document.getElementById("loginForm").onsubmit = async e => {
+/* =========================
+   REGISTER
+========================= */
+document.getElementById("registerForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const res = await fetch(`${API}/auth/login.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: loginEmail.value,
-      password: loginPassword.value
-    })
-  });
+  const form = e.target;
+  const fd = new FormData(form);
 
-  const data = await res.json();
-  if (data.error) return alert(data.error);
+  try {
+    const res = await fetch(`${API_BASE}/register.php`, {
+      method: "POST",
+      body: fd
+    });
 
-  localStorage.setItem("user", JSON.stringify(data.user));
-  alert("Login successful");
-};
+    const data = await res.json();
 
-/* REGISTER */
-document.getElementById("registerForm").onsubmit = async e => {
+    if (data.success) {
+      alert("✅ Registration successful. You can now login.");
+      form.reset();
+    } else {
+      alert("❌ " + (data.error || "Registration failed"));
+    }
+  } catch (err) {
+    alert("❌ Network error");
+    console.error(err);
+  }
+});
+
+/* =========================
+   LOGIN
+========================= */
+document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const res = await fetch(`${API}/auth/register.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      role: role.value,
-      first_name: first_name.value,
-      last_name: last_name.value,
-      email: email.value,
-      password: password.value
-    })
-  });
+  const form = e.target;
+  const fd = new FormData(form);
 
-  const data = await res.json();
-  if (data.error) return alert(data.error);
+  try {
+    const res = await fetch(`${API_BASE}/login.php`, {
+      method: "POST",
+      body: fd
+    });
 
-  alert("Registration successful");
-};
+    const data = await res.json();
+
+    if (data.success) {
+      alert("✅ Login successful");
+
+      // Save session info (basic)
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // redirect if needed
+      // window.location.href = "dashboard.html";
+    } else {
+      alert("❌ " + (data.error || "Login failed"));
+    }
+  } catch (err) {
+    alert("❌ Network error");
+    console.error(err);
+  }
+});
